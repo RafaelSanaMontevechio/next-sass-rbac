@@ -1,0 +1,14 @@
+{
+  "name": "@saas/prettier-config",
+  "version": "0.0.0",
+  "main": "index.mjs",
+  "private": true,
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "devDependencies": {
+    "prettier": "^3.8.1",
+    "prettier-plugin-tailwindcss": "^0.7.2"
+  }
+}

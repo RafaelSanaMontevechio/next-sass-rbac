@@ -1,26 +1,27 @@
 import { AbilityBuilder, createMongoAbility } from '@casl/ability';
-import type { ForcedSubject, CreateAbility, MongoAbility } from '@casl/ability';
+import type { CreateAbility, MongoAbility } from '@casl/ability';
 
-//Define "permissões"
-const actions = ['manage', 'invite', 'delete'] as const;
+import type { User } from './models/User';
+import type { UserSubject } from './subjects/user';
+import type { ProjectSubject } from './subjects/project';
 
-// Define "objetos/Entidades" que as permissões podem ser aplicadas
-const subjects = ['User', 'all'] as const;
+import { permissions } from './permissions';
 
-type AppAbilities = [
-  (typeof actions)[number],
-  (
-    | (typeof subjects)[number]
-    | ForcedSubject<Exclude<(typeof subjects)[number], 'all'>>
-  ),
-];
+type AppAbilities = UserSubject | ProjectSubject | ['manage', 'all'];
 
 export type AppAbility = MongoAbility<AppAbilities>;
 export const createAppAbility = createMongoAbility as CreateAbility<AppAbility>;
 
-const { build, can, cannot } = new AbilityBuilder(createAppAbility);
+export function defineAbilitiesFor(user: User) {
+  const builder = new AbilityBuilder(createAppAbility);
 
-can('invite', 'User');
-cannot('delete', 'User');
+  if (typeof permissions[user.role] !== 'function') {
+    throw new Error(`No permissions defined for role: ${user.role}`);
+  }
 
-export const ability = build();
+  permissions[user.role](user, builder);
+
+  const ability = builder.build();
+
+  return ability;
+}

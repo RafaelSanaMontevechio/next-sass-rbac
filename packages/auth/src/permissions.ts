@@ -9,15 +9,23 @@ type PermissionByRole = (
 ) => void;
 
 export const permissions: Record<Role, PermissionByRole> = {
-  ADMIN(_user, builder) {
-    const { can } = builder;
+  ADMIN(user, builder) {
+    const { can, cannot } = builder;
 
     can('manage', 'all');
+
+    cannot(['transfer_ownership', 'update'], 'Organization');
+    can(['transfer_ownership', 'update'], 'Organization', {
+      ownerId: {
+        $eq: user.id,
+      },
+    });
   },
+
   MEMBER(user, builder) {
     const { can } = builder;
 
-    // can('invite', 'User');
+    can('get', 'User');
     can(['create', 'get'], 'Project');
     can(['update', 'delete'], 'Project', {
       ownerId: {
@@ -25,5 +33,10 @@ export const permissions: Record<Role, PermissionByRole> = {
       },
     });
   },
-  BILLING(_user, _builder) {},
+
+  BILLING(_user, builder) {
+    const { can } = builder;
+
+    can('manage', 'Billing');
+  },
 };

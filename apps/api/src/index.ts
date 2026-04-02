@@ -1,6 +1,3 @@
-import { defineAbilitiesFor } from '@sass/auth';
+import { defineAbilitiesFor, projectSchema } from '@sass/auth';
 
-const ability = defineAbilitiesFor({ role: 'ADMIN' });
-
-const userCanInviteSomeoneElse = ability.can('invite', 'User');
-console.log(userCanInviteSomeoneElse);
+const ability = defineAbilitiesFor({ role: 'ADMIN', id: '' });

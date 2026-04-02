@@ -36,7 +36,12 @@ export function defineAbilitiesFor(user: User) {
 
   permissions[user.role](user, builder);
 
-  const ability = builder.build();
+  //Utiliza o campo __typename para identificar o tipo da subject, isso é necessário para o CASL funcionar corretamente com objetos complexos
+  const ability = builder.build({
+    detectSubjectType(subject) {
+      return subject.__typename;
+    },
+  });
 
   return ability;
 }

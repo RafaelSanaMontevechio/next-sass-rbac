@@ -3,12 +3,16 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "tsx watch src/index.ts",
+    "dev": "tsx watch src/http/server.ts",
     "build": "tsc -p tsconfig.build.json",
     "start": "node dist/index.js"
   },
   "dependencies": {
-    "@sass/auth": "workspace:*"
+    "@fastify/cors": "^11.2.0",
+    "@sass/auth": "workspace:*",
+    "fastify": "^5.8.4",
+    "fastify-type-provider-zod": "^6.1.0",
+    "zod": "^4.3.6"
   },
   "devDependencies": {
     "@saas/eslint-config": "workspace:*",

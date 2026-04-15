@@ -12,6 +12,8 @@ export async function createAccount(app: FastifyInstance) {
     '/users',
     {
       schema: {
+        tags: ['auth'],
+        summary: 'Create a new account.',
         body: z.object({
           name: z.string(),
           email: z.email(),
@@ -22,7 +24,7 @@ export async function createAccount(app: FastifyInstance) {
     async (request, replay) => {
       const { name, email, password } = request.body;
 
-      const userWithSameEmail = prisma.user.findUnique({
+      const userWithSameEmail = await prisma.user.findUnique({
         where: {
           email,
         },

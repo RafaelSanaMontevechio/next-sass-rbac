@@ -1,5 +1,8 @@
 import { fastify } from 'fastify';
 import { fastifyCors } from '@fastify/cors';
+import { fastifySwagger } from '@fastify/swagger';
+import { fastifySwaggerUi } from '@fastify/swagger-ui';
+
 import {
   jsonSchemaTransform,
   serializerCompiler,
@@ -13,6 +16,23 @@ const app = fastify().withTypeProvider<ZodTypeProvider>();
 
 app.setSerializerCompiler(serializerCompiler);
 app.setValidatorCompiler(validatorCompiler);
+
+app.register(fastifySwagger, {
+  openapi: {
+    info: {
+      title: 'NestJS API documentation',
+      description: 'Fullstack saas app with multi-tenant & RBAC.',
+      version: '1.0.0',
+    },
+    servers: [],
+  },
+  transform: jsonSchemaTransform,
+});
+
+app.register(fastifySwaggerUi, {
+  routePrefix: '/docs',
+  uiConfig: {},
+});
 
 app.register(fastifyCors, {
   origin: '*',

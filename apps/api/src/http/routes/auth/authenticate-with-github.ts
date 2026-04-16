@@ -3,6 +3,8 @@ import z, { email } from 'zod';
 import type { FastifyInstance } from 'fastify';
 import type { ZodTypeProvider } from 'fastify-type-provider-zod';
 
+import { env } from '@sass/env';
+
 import { prisma } from '@/lib/prisma';
 
 import { BadRequestError } from '../_errors/bad-request-error';
@@ -31,20 +33,16 @@ export async function authenticateWithGithub(app: FastifyInstance) {
         'https://github.com/login/oauth/access_token'
       );
 
-      githubOAuth.searchParams.set('client_id', 'Ov23liz4fnKThN3tbz3C');
+      githubOAuth.searchParams.set('client_id', env.GITHUB_OAUTH_CLIENT_ID);
       githubOAuth.searchParams.set(
         'client_secret',
-        'a5fc768c2be78903d1ca001c48f83e73476e41da'
+        env.GITHUB_OAUTH_CLIENT_SECRET
       );
       githubOAuth.searchParams.set(
         'redirect_uri',
-        'http://localhost:3000/api/auth/callback'
+        env.GITHUB_OAUTH_CLIENT_REDIRECT_URL
       );
       githubOAuth.searchParams.set('code', code);
-
-      //   const githubUser = await fetch(
-      //     `https://github.com/login/oauth/access_token?client_id=${process.env.GITHUB_CLIENT_ID}&client_secret=${process.env.GITHUB_CLIENT_SECRET}&code=${code}`
-      //   ).then((response) => response.json());
 
       const githubAccessTokenResponse = await fetch(githubOAuth, {
         method: 'POST',

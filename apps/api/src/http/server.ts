@@ -20,6 +20,8 @@ import { requestPasswordRecover } from './routes/auth/request-password-recover';
 import { authenticateWithGithub } from './routes/auth/authenticate-with-github';
 import { authenticateWithPassword } from './routes/auth/authenticate-with-password';
 
+import { createOrganization } from './routes/orgs/create-organization';
+
 import { ErrorHandler } from './error-handler';
 
 const app = fastify().withTypeProvider<ZodTypeProvider>();
@@ -68,6 +70,8 @@ app.register(authenticateWithGithub);
 app.register(getProfile);
 app.register(requestPasswordRecover);
 app.register(resetPassword);
+
+app.register(createOrganization);
 
 app.listen({ port: env.SERVER_PORT }, (err, _address) => {
   if (err) {

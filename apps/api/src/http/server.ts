@@ -21,6 +21,8 @@ import { authenticateWithGithub } from './routes/auth/authenticate-with-github';
 import { authenticateWithPassword } from './routes/auth/authenticate-with-password';
 
 import { getMembership } from './routes/orgs/get-membership';
+import { getOrganization } from './routes/orgs/get-organization';
+import { getOrganizations } from './routes/orgs/get-organizations';
 import { createOrganization } from './routes/orgs/create-organization';
 
 import { ErrorHandler } from './error-handler';
@@ -74,6 +76,8 @@ app.register(resetPassword);
 
 app.register(createOrganization);
 app.register(getMembership);
+app.register(getOrganization);
+app.register(getOrganizations);
 
 app.listen({ port: env.SERVER_PORT }, (err, _address) => {
   if (err) {

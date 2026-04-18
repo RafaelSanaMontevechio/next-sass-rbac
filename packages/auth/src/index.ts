@@ -48,5 +48,9 @@ export function defineAbilitiesFor(user: User) {
     },
   });
 
+  // Mantêm a referencia para o can e cannot
+  ability.can = ability.can.bind(ability);
+  ability.cannot = ability.cannot.bind(ability);
+
   return ability;
 }

@@ -20,6 +20,7 @@ import { requestPasswordRecover } from './routes/auth/request-password-recover';
 import { authenticateWithGithub } from './routes/auth/authenticate-with-github';
 import { authenticateWithPassword } from './routes/auth/authenticate-with-password';
 
+import { getMembership } from './routes/orgs/get-membership';
 import { createOrganization } from './routes/orgs/create-organization';
 
 import { ErrorHandler } from './error-handler';
@@ -72,6 +73,7 @@ app.register(requestPasswordRecover);
 app.register(resetPassword);
 
 app.register(createOrganization);
+app.register(getMembership);
 
 app.listen({ port: env.SERVER_PORT }, (err, _address) => {
   if (err) {
